@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-y: scroll;">
+<head>
+  <meta charset="UTF-8">
+  <title>Newman Summary Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+
+<style>
+code.renderMarkdown table, code.renderMarkdown th, code.renderMarkdown td {
+    border: 1px solid black;
+    width: max-content;
+    padding: .75rem;
+}
+
+.theme-dark {
+    --background-color: #222;
+    --bg-card-deck: #444444;
+    --text-color: #ccd2d8;
+    --tab-border: solid 1px #444;
+    --success: #3c9372;
+    --failure: #c24a3f;
+    --warning: #d28c23;
+    --info: #4083b6;
+    --badge-outline: #3c9372;
+    --badge-bg: #cdd3db;
+    --badge-text: #ccd2d9;
+    --failure-row: #c24a3f;
+    --warning-row: #d28c23;
+    --card-bg: #444;
+    --card-footer: #4f5758;
+    --form-input: #ececb5;
+    --hov-text: #d2dae5;
+    --h4-text: #ccd1d9;
+}
+
+.theme-light {
+    --tab-border: solid 1px #fff;
+    --text-color: #000000;
+    --success: #42a745;
+    --failure: #dc3544;
+    --warning: #f4c10b;
+    --info: #49a1b8;
+    --badge-outline: #040411;
+    --badge-bg: #f8f9fa;
+    --badge-text: #fff;
+    --failure-row: #f5c6cb;
+    --warning-row: #ffeeba;
+    --card-bg: #f7f7f7;
+    --hov-text: #fff;
+    --h4-text: #ffffff;
+}
+
+body {
+  padding-top:30px;
+  background-color: var(--background-color)!important;
+  color: var(--text-color);
+}
+
+#execution-data {
+  padding: 10px;
+  border: var(--tab-border);
+  border-top: none;
+}
+
+.nav-tabs {
+  padding-top: 10px;
+  height: 105px;
+  overflow-y: auto;
+}
+
+body.theme-dark .card-header {
+    background-color: #444;
+}
+
+body.theme-light .card-header {
+    background-color: #f7f7f7;
+}
+
+.card-footer {
+    padding: .75rem 1.25rem;
+    background-color: var(--card-footer);
+}
+
+.card-deck {
+    background-color: var(--bg-card-deck)!important;
+}
+.form-control {
+    background: var(--form-input);
+}
+
+.custom-tab {
+  padding: 10px 15px;
+  margin-right: 0px;
+  height: 47px;
+  width: 69px;
+  text-align: center;
+  border: var(--tab-border);
+  border-bottom: none;
+  cursor:pointer;
+}
+
+body.theme-dark .text-white {
+    color: #ccd2d9!important;
+}
+h4 {
+    color: var(--h4-text);
+}
+
+body.theme-dark h1 {
+    color: #ccd2da;
+}
+
+body.theme-dark .bg-light>td {
+    background: #4f5858!important;
+}
+
+body.theme-dark .hljs {
+    background: #0a0a0ab0!important;
+    color: #8d8787!important;
+}
+
+.bg-info {
+    background-color: var(--info)!important;
+}
+.bg-success {
+    background-color: var(--success)!important;
+}
+
+.alert-success {
+    background-color: var(--success)!important;
+}
+
+.alert-warning {
+    background-color: var(--warning)!important;
+}
+
+.alert-info {
+    background-color: var(--info)!important;
+}
+
+.bg-warning {
+    background-color: var(--warning)!important;
+}
+
+.badge-warning {
+    color: var(--badge-text)!important;
+    background-color: var(--warning)!important;
+}
+
+.table-warning>td {
+    background-color: var(--warning-row);
+}
+
+.alert-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-dark .alert-dark {
+    background-color: #636467!important;
+}
+
+body.theme-dark .text-dark {
+    color: #d1dae4!important;
+}
+
+body.theme-dark .badge-light {
+    color: #212529;
+    background-color: #cdd3db;
+}
+
+body.theme-light .badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+}
+body.theme-light .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-dark .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+.table-danger>td {
+    background-color: var(--failure-row);
+}
+
+body.theme-dark .table .thead-light th {
+    background-color: #4f5858!important;
+    border-color: #dee2e6!important;
+    color: #ccd2d8!important;
+}
+
+.itPassed {
+  background: var(--success);
+  color: white;
+}
+.itFailed {
+  background: var(--failure);
+  color: white;
+}
+
+.resultsInfoPass {
+  color: var(--success);
+  padding-top: 4px;
+}
+
+.resultsInfoFail {
+  color: var(--failure);
+  padding-top: 4px;
+}
+
+.badge-outline-success {
+  color: var(--success);
+  border: 1px solid var(--success);
+  background-color: transparent;
+}
+
+.badge-outline {
+  color: var(--badge-outline);
+  border: 1px solid var(--badge-outline);
+  background-color: transparent;
+}
+
+.btn-outline-success {
+    color: var(--success)!important;
+    border-color: var(--success)!important;
+}
+
+.backToTop:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-secondary {
+  background-color: var(--success)!important;
+  color: var(--hov-text)!important;
+}
+
+body.theme-dark .env-heading {
+    color: #ccd2d9!important;
+}
+
+body, html {
+  height:100%;
+}
+
+.card {
+  overflow:hidden;
+}
+
+body.theme-dark .card-body {
+    background-color: #444;
+}
+
+body.theme-light .card-body {
+    background-color: #f7f7f7;
+}
+
+body.theme-dark .card-body .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-light .card-body .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+.card-body .rotate {
+  z-index: 8;
+  float: right;
+  height: 100%;
+}
+
+.card-body .rotate i {
+  color: #14141426;
+  position: absolute;
+  left: 0;
+  left: auto;
+  right: -10px;
+  bottom: 0;
+  display: block;
+  -webkit-transform: rotate(-44deg);
+  -moz-transform: rotate(-44deg);
+  -o-transform: rotate(-44deg);
+  -ms-transform: rotate(-44deg);
+  transform: rotate(-44deg);
+}
+
+.dyn-height {
+  max-height:350px;
+  overflow-y:auto;
+}
+
+.nav-pills .nav-link.active {
+  background-color: transparent!important;
+}
+
+.backToTop {
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  z-index: 99;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.card-header .fa {
+  transition: .3s transform ease-in-out;
+}
+.card-header .collapsed .fa {
+  transform: rotate(90deg);
+}
+
+.single-line-tabs {
+  padding-top: 10px;
+  height: 60px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 0px;
+  bottom: 4px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  box-shadow: 0 0px 15px #2020203d;
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input:checked + .slider {
+  background-color: #4083b6;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4083b6;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+table.dataTable td, table.dataTable tr {
+    vertical-align: middle;
+}
+
+body.theme-dark code {
+    color: #ccd2d8!important;
+}
+
+body.theme-light code {
+    color: #000000!important;
+}
+
+.text-wrap {
+    word-wrap: break-word; 
+    min-width: 600px; 
+    max-width: 600px; 
+    white-space: normal;
+}
+
+</style>
+</head>
+<body class="theme-dark">
+<script>
+    function setTheme(themeName) {
+        localStorage.setItem('theme', themeName);
+        document.body.className = themeName;
+    }
+
+    function toggleTheme() {
+        if (localStorage.getItem('theme') === 'theme-light') {
+            setTheme('theme-dark');
+        } else {
+            setTheme('theme-light');
+        }
+    }
+</script>
+  <div class="container">
+        <div class="container">
+            <label>Light</label>
+            <label id="switch" class="switch">
+                <input type="checkbox" onchange="toggleTheme()" id="slider">
+                <span class="slider round"></span>
+            </label>
+            <label>Dark</label>
+        </div>
+        <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item bg-info active" data-toggle="tooltip" title="Click to view the Summary">
+                <a class="nav-link text-white" id="pills-summary-tab" data-toggle="pill" href="#pills-summary" role="tab" aria-controls="pills-summary" aria-selected="true">Summary</a>
+            </li>
+            <li class="nav-item bg-success" data-toggle="tooltip" title="Click to view the Requests">
+                <a class="nav-link text-white" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Total Requests <span class="badge badge-light">2</span></a>
+            </li>
+            <li class="nav-item bg-danger" data-toggle="tooltip" title="Click to view the Failed Tests">
+                <a class="nav-link text-white" id="pills-failed-tab" data-toggle="pill" href="#pills-failed" role="tab" aria-controls="pills-failed" aria-selected="false">Failed Tests <span class="badge badge-light">0</span></a>
+            </li>
+            <li class="nav-item bg-warning" data-toggle="tooltip" title="Click to view the Skipped Tests">
+                <a class="nav-link text-white" id="pills-skipped-tab" data-toggle="pill" href="#pills-skipped" role="tab" aria-controls="pills-skipped" aria-selected="false">Skipped Tests <span class="badge badge-light">0</span></a>
+            </li>
+            </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-summary" role="tabcard" aria-labelledby="pills-summary-tab">
+<div class="row">
+  <div class="col-md-9 col-lg-12 main">
+   <h1 class="display-2 text-center">Newman Run Dashboard</h1>
+   <h5 class="text-center">Sunday, 22 September 2024 13:09:04</h5>
+   <div class="row">
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-success">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-retweet fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Iterations</h6>
+       <h1 class="display-1">1</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-danger">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-list fa-4x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Assertions</h6>
+       <h1 class="display-1">1</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-info">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-plus-circle fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Failed Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-warning">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-share fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Skipped Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+   </div>
+   <hr>
+    <div class="row">
+    <div class="col">
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">File Information</h5>
+                <span><i class="fas fa-file-code"></i></span><strong> Collection:</strong> Katalon- Appointment Api<br>
+                
+                
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">Timings and Data</h5>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Total run duration:</strong> 2.3s<br>
+                <span><i class="fas fa-database"></i></span><strong> Total data received:</strong> 13.35KB<br>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Average response time:</strong> 1101ms<br>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-inverse">
+                    <tr class="text-center">
+                        <th class="text-uppercase">Summary Item</th>
+                        <th class="text-uppercase">Total</th>
+                        <th class="text-uppercase">Failed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Requests</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Prerequest Scripts</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Test Scripts</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Assertions</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Skipped Tests</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    <hr>
+   </div>
+   </div>
+  </div>
+ </div>
+        </div>
+            <div class="tab-pane fade" id="pills-failed" role="tabcard" aria-labelledby="pills-failed-tab">
+                <button id="topOfFailuresScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+                <div class="alert alert-success text-uppercase text-center">
+                     <br><br><h1 class="text-center">There are no failed tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-skipped" role="tabcard" aria-labelledby="pills-skipped-tab">
+                <button id="topOfSkippedScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+                <div class="alert alert-success text-uppercase text-center">
+                    <br><br><h1 class="text-center">There are no skipped tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-requests" role="tabcard" aria-labelledby="pills-requests-tab">
+
+            <button id="topOfRequestsScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+            <div class="btn-group float-right" role="group" aria-label="Button Group">
+                <button id="openAll" class="btn btn-outline-success btn-sm float-right" style="text-align: center; width: 140px;">Expand Folders</button>
+                <button id="openAllRequests" class="btn btn-outline-success btn-sm float-right" style="text-align: center; width: 140px;">Expand Requests</button>
+            </div>
+
+    <div class="text-uppercase" id="execution-menu">
+        <h5>1 Iteration available to view</h5>
+        
+        <nav class="table-responsive">
+        <ul class="nav single-line-tabs" id="iterationList">
+        </ul>
+        </nav>
+    </div>
+    <h6 class="text-uppercase text-muted" id="iterationSelected" style="padding-top: 10px;"></h6>
+	<div class="tab-content" id="execution-data">
+            <div id="folder-39f0740a-98fe-48c8-a782-d6a3df44dda0" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0" aria-expanded="false" aria-controls="collapse" id="requests-39f0740a-98fe-48c8-a782-d6a3df44dda0" class="collapsed text-white z-block">
+                    Iteration: 1 - Katalon appoinment <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0" class="collapse" aria-labelledby="requests-39f0740a-98fe-48c8-a782-d6a3df44dda0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Description</h5>
+                                        <div class="dyn-height">
+                                            <code class="renderMarkdown">Generated from cURL: curl &#x27;https://katalon-demo-cura.herokuapp.com/profile.php&#x27; \
+          -H &#x27;Accept: text/html,application/xhtml+xml,application/xml;q&#x3D;0.9,image/avif,image/webp,image/apng,*/*;q&#x3D;0.8,application/signed-exchange;v&#x3D;b3;q&#x3D;0.7&#x27; \
+          -H &#x27;Accept-Language: en-US,en;q&#x3D;0.9&#x27; \
+          -H &#x27;Connection: keep-alive&#x27; \
+          -H &#x27;Cookie: PHPSESSID&#x3D;8e5ve57bdb92c8p8gm8linnup2llntcj&#x27; \
+          -H &#x27;Referer: https://katalon-demo-cura.herokuapp.com/&#x27; \
+          -H &#x27;Sec-Fetch-Dest: document&#x27; \
+          -H &#x27;Sec-Fetch-Mode: navigate&#x27; \
+          -H &#x27;Sec-Fetch-Site: same-origin&#x27; \
+          -H &#x27;Sec-Fetch-User: ?1&#x27; \
+          -H &#x27;Upgrade-Insecure-Requests: 1&#x27; \
+          -H &#x27;User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1&#x27;</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://katalon-demo-cura.herokuapp.com/profile.php" target="_blank">https://katalon-demo-cura.herokuapp.com/profile.php</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 1878ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 7.09KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar bg-success" style="width: 100%" role="progressbar">
+                                            <h5 class="text-uppercase text-white text-center" style="padding-top:5px;"><strong>No Tests for this request</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">text/html,application/xhtml+xml,application/xml;q&#x3D;0.9,image/avif,image/webp,image/apng,*/*;q&#x3D;0.8,application/signed-exchange;v&#x3D;b3;q&#x3D;0.7</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Language</td>
+                                                        <td class="text-wrap">en-US,en;q&#x3D;0.9</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cookie</td>
+                                                        <td class="text-wrap">PHPSESSID&#x3D;8e5ve57bdb92c8p8gm8linnup2llntcj</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Referer</td>
+                                                        <td class="text-wrap">https://katalon-demo-cura.herokuapp.com/</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-Dest</td>
+                                                        <td class="text-wrap">document</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-Mode</td>
+                                                        <td class="text-wrap">navigate</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-Site</td>
+                                                        <td class="text-wrap">same-origin</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-User</td>
+                                                        <td class="text-wrap">?1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Upgrade-Insecure-Requests</td>
+                                                        <td class="text-wrap">1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">0a9bdbba-54ed-41d1-a94a-dbf220174d10</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">katalon-demo-cura.herokuapp.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Report-To</td>
+                                                    <td class="text-wrap">{&quot;group&quot;:&quot;heroku-nel&quot;,&quot;max_age&quot;:3600,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?ts&#x3D;1726990743&amp;sid&#x3D;67ff5de4-ad2b-4112-9289-cf96be89efed&amp;s&#x3D;1QFctpvOzkkwRu6NpndHtK%2FKqYH8mwtojuRrFIx4Srk%3D&quot;}]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Reporting-Endpoints</td>
+                                                    <td class="text-wrap">heroku-nel&#x3D;https://nel.heroku.com/reports?ts&#x3D;1726990743&amp;sid&#x3D;67ff5de4-ad2b-4112-9289-cf96be89efed&amp;s&#x3D;1QFctpvOzkkwRu6NpndHtK%2FKqYH8mwtojuRrFIx4Srk%3D</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Nel</td>
+                                                    <td class="text-wrap">{&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.005,&quot;failure_fraction&quot;:0.05,&quot;response_headers&quot;:[&quot;Via&quot;]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Connection</td>
+                                                    <td class="text-wrap">keep-alive</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Sun, 22 Sep 2024 07:39:03 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Apache</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Expires</td>
+                                                    <td class="text-wrap">Thu, 19 Nov 1981 08:52:00 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Cache-Control</td>
+                                                    <td class="text-wrap">no-store, no-cache, must-revalidate</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Pragma</td>
+                                                    <td class="text-wrap">no-cache</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Transfer-Encoding</td>
+                                                    <td class="text-wrap">chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">text/html; charset&#x3D;UTF-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Via</td>
+                                                    <td class="text-wrap">1.1 vegur</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-ba540347-8da9-460f-892b-a98766b638b6" class="prettyPrint">&lt;!DOCTYPE html&gt;
+        &lt;html lang&#x3D;&quot;en&quot;&gt;
+        
+        &lt;head&gt;
+            &lt;meta charset&#x3D;&quot;utf-8&quot;&gt;
+            &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;
+            &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+            &lt;meta name&#x3D;&quot;description&quot; content&#x3D;&quot;CURA Healthcare Service; (678) 813-1KMS&quot;&gt;
+            &lt;meta name&#x3D;&quot;robots&quot; content&#x3D;&quot;noindex&quot;&gt;
+        
+            &lt;title&gt;CURA Healthcare Service&lt;/title&gt;
+        
+            &lt;!-- Bootstrap Core CSS --&gt;
+            &lt;link href&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt;
+            &lt;link href&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt;
+        
+            &lt;!-- Custom CSS --&gt;
+            &lt;link href&#x3D;&quot;https://katalon-demo-cura.herokuapp.com//css/theme.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt;
+        
+            &lt;!-- Custom Fonts --&gt;
+            &lt;link href&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css&quot; rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text/css&quot;&gt;
+            &lt;link href&#x3D;&quot;https://fonts.googleapis.com/css?family&#x3D;Source+Sans+Pro:300,400,700,300italic,400italic,700italic&quot; rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text/css&quot;&gt;
+        
+            &lt;!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --&gt;
+            &lt;!-- WARNING: Respond.js doesn&#x27;t work if you view the page via file:// --&gt;
+            &lt;!--[if lt IE 9]&gt;
+            &lt;script src&#x3D;&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
+            &lt;script src&#x3D;&quot;https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;
+            &lt;![endif]--&gt;
+        
+        &lt;/head&gt;
+        
+        &lt;body&gt;
+        &lt;!-- Navigation --&gt;
+        &lt;a id&#x3D;&quot;menu-toggle&quot; href&#x3D;&quot;#&quot; class&#x3D;&quot;btn btn-dark btn-lg toggle&quot;&gt;&lt;i class&#x3D;&quot;fa fa-bars&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;nav id&#x3D;&quot;sidebar-wrapper&quot;&gt;
+            &lt;ul class&#x3D;&quot;sidebar-nav&quot;&gt;
+                &lt;a id&#x3D;&quot;menu-close&quot; href&#x3D;&quot;#&quot; class&#x3D;&quot;btn btn-light btn-lg pull-right toggle&quot;&gt;&lt;i class&#x3D;&quot;fa fa-times&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                &lt;li class&#x3D;&quot;sidebar-brand&quot;&gt;
+                    &lt;a href&#x3D;&quot;./&quot; onclick&#x3D;&quot;$(&#x27;#menu-close&#x27;).click();&quot;&gt;CURA Healthcare&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                    &lt;a href&#x3D;&quot;./&quot; onclick&#x3D;&quot;$(&#x27;#menu-close&#x27;).click();&quot;&gt;Home&lt;/a&gt;
+                &lt;/li&gt;
+                        &lt;li&gt;
+                    &lt;a href&#x3D;&quot;profile.php#login&quot; onclick&#x3D;&quot;$(&#x27;#menu-close&#x27;).click();&quot;&gt;Login&lt;/a&gt;
+                &lt;/li&gt;
+                    &lt;/ul&gt;
+        &lt;/nav&gt;
+        
+        &lt;!-- Header --&gt;
+        &lt;header id&#x3D;&quot;top&quot; class&#x3D;&quot;header&quot;&gt;
+            &lt;div class&#x3D;&quot;text-vertical-center&quot;&gt;
+                &lt;h1&gt;CURA Healthcare Service&lt;/h1&gt;
+                &lt;h3&gt;We Care About Your Health&lt;/h3&gt;
+                &lt;br&gt;
+                &lt;a id&#x3D;&quot;btn-make-appointment&quot; href&#x3D;&quot;./profile.php#login&quot; class&#x3D;&quot;btn btn-dark btn-lg&quot;&gt;Make Appointment&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/header&gt;
+        
+        &lt;section id&#x3D;&quot;login&quot; class&#x3D;&quot;section&quot;&gt;
+            &lt;div class&#x3D;&quot;container&quot;&gt;
+                &lt;div class&#x3D;&quot;row&quot;&gt;
+                    &lt;div class&#x3D;&quot;col-sm-12 text-center&quot;&gt;
+                        &lt;h2&gt;Login&lt;/h2&gt;
+                        &lt;p class&#x3D;&quot;lead&quot;&gt;Please login to make appointment.&lt;/p&gt;
+                                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;col-sm-offset-3 col-sm-6&quot;&gt;
+                        &lt;form class&#x3D;&quot;form-horizontal&quot; action&#x3D;&quot;https://katalon-demo-cura.herokuapp.com/authenticate.php&quot; method&#x3D;&quot;post&quot;&gt;
+                            &lt;div class&#x3D;&quot;alert alert-info&quot;&gt;
+                                &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                                    &lt;label for&#x3D;&quot;demo_account&quot; class&#x3D;&quot;col-sm-4 control-label&quot;&gt;Demo account&lt;/label&gt;
+                                    &lt;div class&#x3D;&quot;col-sm-8&quot;&gt;
+                                        &lt;div class&#x3D;&quot;input-group&quot;&gt;
+                                          &lt;span class&#x3D;&quot;input-group-addon&quot; id&#x3D;&quot;demo_username_label&quot;&gt;&lt;span class&#x3D;&quot;glyphicon glyphicon-user&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+                                          &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; placeholder&#x3D;&quot;Username&quot; aria-describedby&#x3D;&quot;demo_username_label&quot; value&#x3D;&quot;John Doe&quot; readonly&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class&#x3D;&quot;form-group&quot; style&#x3D;&quot;margin-bottom: 0;&quot;&gt;
+                                    &lt;div class&#x3D;&quot;col-sm-offset-4 col-sm-8&quot;&gt;
+                                        &lt;div class&#x3D;&quot;input-group&quot;&gt;
+                                          &lt;span class&#x3D;&quot;input-group-addon&quot; id&#x3D;&quot;demo_password_label&quot;&gt;&lt;span class&#x3D;&quot;glyphicon glyphicon-lock&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+                                          &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; placeholder&#x3D;&quot;Password&quot; aria-describedby&#x3D;&quot;demo_password_label&quot; value&#x3D;&quot;ThisIsNotAPassword&quot; readonly&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                                &lt;label for&#x3D;&quot;txt-username&quot; class&#x3D;&quot;col-sm-4 control-label&quot;&gt;Username&lt;/label&gt;
+                                &lt;div class&#x3D;&quot;col-sm-8&quot;&gt;
+                                    &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;txt-username&quot; name&#x3D;&quot;username&quot; placeholder&#x3D;&quot;Username&quot; value&#x3D;&quot;&quot; autocomplete&#x3D;&quot;off&quot;&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                                &lt;label for&#x3D;&quot;txt-password&quot; class&#x3D;&quot;col-sm-4 control-label&quot;&gt;Password&lt;/label&gt;
+                                &lt;div class&#x3D;&quot;col-sm-8&quot;&gt;
+                                    &lt;input type&#x3D;&quot;password&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;txt-password&quot; name&#x3D;&quot;password&quot; placeholder&#x3D;&quot;Password&quot; value&#x3D;&quot;&quot; autocomplete&#x3D;&quot;off&quot;&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                                &lt;div class&#x3D;&quot;col-sm-offset-4 col-sm-8&quot;&gt;
+                                    &lt;button id&#x3D;&quot;btn-login&quot; type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-default&quot;&gt;Login&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/form&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;!-- Footer --&gt;
+        &lt;footer&gt;
+            &lt;div class&#x3D;&quot;container&quot;&gt;
+                &lt;div class&#x3D;&quot;row&quot;&gt;
+                    &lt;div class&#x3D;&quot;col-lg-10 col-lg-offset-1 text-center&quot;&gt;
+                        &lt;h4&gt;&lt;strong&gt;CURA Healthcare Service&lt;/strong&gt;
+                        &lt;/h4&gt;
+                        &lt;p&gt;Atlanta 550 Pharr Road NE Suite 525&lt;br&gt;Atlanta, GA 30305&lt;/p&gt;
+                        &lt;ul class&#x3D;&quot;list-unstyled&quot;&gt;
+                            &lt;li&gt;&lt;i class&#x3D;&quot;fa fa-phone fa-fw&quot;&gt;&lt;/i&gt; (678) 813-1KMS&lt;/li&gt;
+                            &lt;li&gt;&lt;i class&#x3D;&quot;fa fa-envelope-o fa-fw&quot;&gt;&lt;/i&gt; &lt;a href&#x3D;&quot;mailto:info@katalon.com&quot;&gt;info@katalon.com&lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                        &lt;br&gt;
+                        &lt;ul class&#x3D;&quot;list-inline&quot;&gt;
+                            &lt;li&gt;
+                                &lt;a href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;fa fa-facebook fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;fa fa-twitter fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;fa fa-dribbble fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                        &lt;hr class&#x3D;&quot;small&quot;&gt;
+                        &lt;p class&#x3D;&quot;text-muted&quot;&gt;Copyright &amp;copy; CURA Healthcare Service 2024&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;a id&#x3D;&quot;to-top&quot; href&#x3D;&quot;#top&quot; class&#x3D;&quot;btn btn-dark btn-lg&quot;&gt;&lt;i class&#x3D;&quot;fa fa-chevron-up fa-fw fa-1x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;/footer&gt;
+        
+        &lt;script src&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src&#x3D;&quot;https://katalon-demo-cura.herokuapp.com//js/theme.js&quot;&gt;&lt;/script&gt;
+        
+        &lt;/body&gt;
+        &lt;/html&gt;
+        
+        </code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-ba540347-8da9-460f-892b-a98766b638b6">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <h5 class="alert alert-success text-uppercase text-center">No Tests for this request</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-c82f2503-01a8-4038-9440-9bceb9c2ed7d" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d" aria-expanded="false" aria-controls="collapse" id="requests-c82f2503-01a8-4038-9440-9bceb9c2ed7d" class="collapsed text-white z-block">
+                    Iteration: 1 - Katalon- Book Appointment <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d" class="collapse" aria-labelledby="requests-c82f2503-01a8-4038-9440-9bceb9c2ed7d">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Description</h5>
+                                        <div class="dyn-height">
+                                            <code class="renderMarkdown">Generated from cURL: curl &#x27;https://katalon-demo-cura.herokuapp.com/appointment.php&#x27; \
+          -H &#x27;Accept: text/html,application/xhtml+xml,application/xml;q&#x3D;0.9,image/avif,image/webp,image/apng,*/*;q&#x3D;0.8,application/signed-exchange;v&#x3D;b3;q&#x3D;0.7&#x27; \
+          -H &#x27;Accept-Language: en-US,en;q&#x3D;0.9&#x27; \
+          -H &#x27;Cache-Control: max-age&#x3D;0&#x27; \
+          -H &#x27;Connection: keep-alive&#x27; \
+          -H &#x27;Content-Type: application/x-www-form-urlencoded&#x27; \
+          -H &#x27;Cookie: PHPSESSID&#x3D;8e5ve57bdb92c8p8gm8linnup2llntcj&#x27; \
+          -H &#x27;Origin: https://katalon-demo-cura.herokuapp.com&#x27; \
+          -H &#x27;Referer: https://katalon-demo-cura.herokuapp.com/&#x27; \
+          -H &#x27;Sec-Fetch-Dest: document&#x27; \
+          -H &#x27;Sec-Fetch-Mode: navigate&#x27; \
+          -H &#x27;Sec-Fetch-Site: same-origin&#x27; \
+          -H &#x27;Sec-Fetch-User: ?1&#x27; \
+          -H &#x27;Upgrade-Insecure-Requests: 1&#x27; \
+          -H &#x27;User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1&#x27; \
+          --data-raw &#x27;facility&#x3D;Hongkong+CURA+Healthcare+Center&amp;hospital_readmission&#x3D;Yes&amp;programs&#x3D;Medicare&amp;visit_date&#x3D;20%2F09%2F2024&amp;comment&#x3D;hi&#x27;</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> POST</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://katalon-demo-cura.herokuapp.com/appointment.php" target="_blank">https://katalon-demo-cura.herokuapp.com/appointment.php</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 325ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 6.26KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar  bg-success" style="width: 100%" role="progressbar">
+                                            <h5 style="padding-top:5px;"><strong>100 %</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">text/html,application/xhtml+xml,application/xml;q&#x3D;0.9,image/avif,image/webp,image/apng,*/*;q&#x3D;0.8,application/signed-exchange;v&#x3D;b3;q&#x3D;0.7</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Language</td>
+                                                        <td class="text-wrap">en-US,en;q&#x3D;0.9</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">max-age&#x3D;0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Type</td>
+                                                        <td class="text-wrap">application/x-www-form-urlencoded</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cookie</td>
+                                                        <td class="text-wrap">PHPSESSID&#x3D;8e5ve57bdb92c8p8gm8linnup2llntcj</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Origin</td>
+                                                        <td class="text-wrap">https://katalon-demo-cura.herokuapp.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Referer</td>
+                                                        <td class="text-wrap">https://katalon-demo-cura.herokuapp.com/</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-Dest</td>
+                                                        <td class="text-wrap">document</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-Mode</td>
+                                                        <td class="text-wrap">navigate</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-Site</td>
+                                                        <td class="text-wrap">same-origin</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Sec-Fetch-User</td>
+                                                        <td class="text-wrap">?1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Upgrade-Insecure-Requests</td>
+                                                        <td class="text-wrap">1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">b4f55ab7-8724-4c0c-b900-44f3f165ec34</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">katalon-demo-cura.herokuapp.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Length</td>
+                                                        <td class="text-wrap">126</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <div class="card-deck">
+                                        <div class="card border-info" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-info">Request Body</h5>
+                                                <div class="dyn-height">
+                                                    <pre><code id="copyReqText-1" class="prettyPrint">{&quot;facility&quot;:&quot;Hongkong CURA Healthcare Center&quot;,&quot;hospital_readmission&quot;:&quot;Yes&quot;,&quot;programs&quot;:&quot;Medicare&quot;,&quot;visit_date&quot;:&quot;20/09/2024&quot;,&quot;comment&quot;:&quot;hi&quot;}</code></pre>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyReqText-1">Copy to Clipboard</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Report-To</td>
+                                                    <td class="text-wrap">{&quot;group&quot;:&quot;heroku-nel&quot;,&quot;max_age&quot;:3600,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?ts&#x3D;1726990744&amp;sid&#x3D;67ff5de4-ad2b-4112-9289-cf96be89efed&amp;s&#x3D;BWH7e%2FgrynUFIoOZrCFezLDU%2F8Vk6DUsxcL1BP7hcHY%3D&quot;}]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Reporting-Endpoints</td>
+                                                    <td class="text-wrap">heroku-nel&#x3D;https://nel.heroku.com/reports?ts&#x3D;1726990744&amp;sid&#x3D;67ff5de4-ad2b-4112-9289-cf96be89efed&amp;s&#x3D;BWH7e%2FgrynUFIoOZrCFezLDU%2F8Vk6DUsxcL1BP7hcHY%3D</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Nel</td>
+                                                    <td class="text-wrap">{&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.005,&quot;failure_fraction&quot;:0.05,&quot;response_headers&quot;:[&quot;Via&quot;]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Connection</td>
+                                                    <td class="text-wrap">keep-alive</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Sun, 22 Sep 2024 07:39:04 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Apache</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Expires</td>
+                                                    <td class="text-wrap">Thu, 19 Nov 1981 08:52:00 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Cache-Control</td>
+                                                    <td class="text-wrap">no-store, no-cache, must-revalidate</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Pragma</td>
+                                                    <td class="text-wrap">no-cache</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Transfer-Encoding</td>
+                                                    <td class="text-wrap">chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">text/html; charset&#x3D;UTF-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Via</td>
+                                                    <td class="text-wrap">1.1 vegur</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-42260d9f-3b10-4de0-b057-2fb5663deb59" class="prettyPrint">&lt;!DOCTYPE html&gt;
+        &lt;html lang&#x3D;&quot;en&quot;&gt;
+        
+        &lt;head&gt;
+            &lt;meta charset&#x3D;&quot;utf-8&quot;&gt;
+            &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;
+            &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+            &lt;meta name&#x3D;&quot;description&quot; content&#x3D;&quot;CURA Healthcare Service; (678) 813-1KMS&quot;&gt;
+            &lt;meta name&#x3D;&quot;robots&quot; content&#x3D;&quot;noindex&quot;&gt;
+        
+            &lt;title&gt;CURA Healthcare Service&lt;/title&gt;
+        
+            &lt;!-- Bootstrap Core CSS --&gt;
+            &lt;link href&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt;
+            &lt;link href&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt;
+        
+            &lt;!-- Custom CSS --&gt;
+            &lt;link href&#x3D;&quot;https://katalon-demo-cura.herokuapp.com//css/theme.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt;
+        
+            &lt;!-- Custom Fonts --&gt;
+            &lt;link href&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css&quot; rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text/css&quot;&gt;
+            &lt;link href&#x3D;&quot;https://fonts.googleapis.com/css?family&#x3D;Source+Sans+Pro:300,400,700,300italic,400italic,700italic&quot; rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text/css&quot;&gt;
+        
+            &lt;!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --&gt;
+            &lt;!-- WARNING: Respond.js doesn&#x27;t work if you view the page via file:// --&gt;
+            &lt;!--[if lt IE 9]&gt;
+            &lt;script src&#x3D;&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
+            &lt;script src&#x3D;&quot;https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;
+            &lt;![endif]--&gt;
+        
+        &lt;/head&gt;
+        
+        &lt;body&gt;
+        &lt;!-- Navigation --&gt;
+        &lt;a id&#x3D;&quot;menu-toggle&quot; href&#x3D;&quot;#&quot; class&#x3D;&quot;btn btn-dark btn-lg toggle&quot;&gt;&lt;i class&#x3D;&quot;fa fa-bars&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;nav id&#x3D;&quot;sidebar-wrapper&quot;&gt;
+            &lt;ul class&#x3D;&quot;sidebar-nav&quot;&gt;
+                &lt;a id&#x3D;&quot;menu-close&quot; href&#x3D;&quot;#&quot; class&#x3D;&quot;btn btn-light btn-lg pull-right toggle&quot;&gt;&lt;i class&#x3D;&quot;fa fa-times&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                &lt;li class&#x3D;&quot;sidebar-brand&quot;&gt;
+                    &lt;a href&#x3D;&quot;./&quot; onclick&#x3D;&quot;$(&#x27;#menu-close&#x27;).click();&quot;&gt;CURA Healthcare&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                    &lt;a href&#x3D;&quot;./&quot; onclick&#x3D;&quot;$(&#x27;#menu-close&#x27;).click();&quot;&gt;Home&lt;/a&gt;
+                &lt;/li&gt;
+                        &lt;li&gt;
+                    &lt;a href&#x3D;&quot;profile.php#login&quot; onclick&#x3D;&quot;$(&#x27;#menu-close&#x27;).click();&quot;&gt;Login&lt;/a&gt;
+                &lt;/li&gt;
+                    &lt;/ul&gt;
+        &lt;/nav&gt;
+        
+        &lt;!-- Header --&gt;
+        &lt;header id&#x3D;&quot;top&quot; class&#x3D;&quot;header&quot;&gt;
+            &lt;div class&#x3D;&quot;text-vertical-center&quot;&gt;
+                &lt;h1&gt;CURA Healthcare Service&lt;/h1&gt;
+                &lt;h3&gt;We Care About Your Health&lt;/h3&gt;
+                &lt;br&gt;
+                &lt;a id&#x3D;&quot;btn-make-appointment&quot; href&#x3D;&quot;./profile.php#login&quot; class&#x3D;&quot;btn btn-dark btn-lg&quot;&gt;Make Appointment&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/header&gt;
+        
+        &lt;section id&#x3D;&quot;summary&quot; class&#x3D;&quot;section bg-primary&quot;&gt;
+            &lt;div class&#x3D;&quot;container&quot;&gt;
+                &lt;div class&#x3D;&quot;row&quot;&gt;
+                    &lt;div class&#x3D;&quot;col-xs-12 text-center&quot;&gt;
+                        &lt;h2&gt;Appointment Confirmation&lt;/h2&gt;
+                        &lt;p class&#x3D;&quot;lead&quot;&gt;Please be informed that your appointment has been booked as following:&lt;/p&gt;
+                        &lt;hr class&#x3D;&quot;small&quot;&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;col-xs-offset-2 col-xs-8&quot;&gt;
+                        &lt;div class&#x3D;&quot;col-xs-4&quot;&gt;
+                            &lt;label for&#x3D;&quot;facility&quot;&gt;Facility&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;col-xs-8&quot;&gt;
+                            &lt;p id&#x3D;&quot;facility&quot;&gt;Hongkong CURA Healthcare Center&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;col-xs-offset-2 col-xs-8&quot;&gt;
+                        &lt;div class&#x3D;&quot;col-xs-4&quot;&gt;
+                            &lt;label for&#x3D;&quot;hospital_readmission&quot;&gt;Apply for hospital readmission&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;col-xs-8&quot;&gt;
+                            &lt;p id&#x3D;&quot;hospital_readmission&quot;&gt;Yes&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;col-xs-offset-2 col-xs-8&quot;&gt;
+                        &lt;div class&#x3D;&quot;col-xs-4&quot;&gt;
+                            &lt;label for&#x3D;&quot;program&quot;&gt;Healthcare Program&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;col-xs-8&quot;&gt;
+                            &lt;p id&#x3D;&quot;program&quot;&gt;Medicare&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;col-xs-offset-2 col-xs-8&quot;&gt;
+                        &lt;div class&#x3D;&quot;col-xs-4&quot;&gt;
+                            &lt;label for&#x3D;&quot;visit_date&quot;&gt;Visit Date&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;col-xs-8&quot;&gt;
+                            &lt;p id&#x3D;&quot;visit_date&quot;&gt;20/09/2024&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;col-xs-offset-2 col-xs-8&quot;&gt;
+                        &lt;div class&#x3D;&quot;col-xs-4&quot;&gt;
+                            &lt;label for&#x3D;&quot;comment&quot;&gt;Comment&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;col-xs-8&quot;&gt;
+                            &lt;p id&#x3D;&quot;comment&quot;&gt;hi&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;col-xs-12&quot;&gt;
+                        &lt;p class&#x3D;&quot;text-center&quot;&gt;&lt;a class&#x3D;&quot;btn btn-default&quot; href&#x3D;&quot;https://katalon-demo-cura.herokuapp.com/&quot;&gt;Go to Homepage&lt;/a&gt;&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;!-- Footer --&gt;
+        &lt;footer&gt;
+            &lt;div class&#x3D;&quot;container&quot;&gt;
+                &lt;div class&#x3D;&quot;row&quot;&gt;
+                    &lt;div class&#x3D;&quot;col-lg-10 col-lg-offset-1 text-center&quot;&gt;
+                        &lt;h4&gt;&lt;strong&gt;CURA Healthcare Service&lt;/strong&gt;
+                        &lt;/h4&gt;
+                        &lt;p&gt;Atlanta 550 Pharr Road NE Suite 525&lt;br&gt;Atlanta, GA 30305&lt;/p&gt;
+                        &lt;ul class&#x3D;&quot;list-unstyled&quot;&gt;
+                            &lt;li&gt;&lt;i class&#x3D;&quot;fa fa-phone fa-fw&quot;&gt;&lt;/i&gt; (678) 813-1KMS&lt;/li&gt;
+                            &lt;li&gt;&lt;i class&#x3D;&quot;fa fa-envelope-o fa-fw&quot;&gt;&lt;/i&gt; &lt;a href&#x3D;&quot;mailto:info@katalon.com&quot;&gt;info@katalon.com&lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                        &lt;br&gt;
+                        &lt;ul class&#x3D;&quot;list-inline&quot;&gt;
+                            &lt;li&gt;
+                                &lt;a href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;fa fa-facebook fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;fa fa-twitter fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href&#x3D;&quot;#&quot;&gt;&lt;i class&#x3D;&quot;fa fa-dribbble fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                        &lt;hr class&#x3D;&quot;small&quot;&gt;
+                        &lt;p class&#x3D;&quot;text-muted&quot;&gt;Copyright &amp;copy; CURA Healthcare Service 2024&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;a id&#x3D;&quot;to-top&quot; href&#x3D;&quot;#top&quot; class&#x3D;&quot;btn btn-dark btn-lg&quot;&gt;&lt;i class&#x3D;&quot;fa fa-chevron-up fa-fw fa-1x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;/footer&gt;
+        
+        &lt;script src&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src&#x3D;&quot;https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src&#x3D;&quot;https://katalon-demo-cura.herokuapp.com//js/theme.js&quot;&gt;&lt;/script&gt;
+        
+        &lt;/body&gt;
+        &lt;/html&gt;
+        
+        </code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-42260d9f-3b10-4de0-b057-2fb5663deb59">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="datatable table table-hover">
+                                        <thead><tr class="text-center"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr></thead>
+                                            <tbody>
+                                                <tr >
+                                                    <td >Status Code is 200</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-center">1</td>
+                                                    <td class="text-center">0</td>
+                                                    <td class="text-center">0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row d-none">
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="card-deck">
+                                        <div class="card border-danger" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-danger">Test Failure</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                    <thead><tr class="text-nowrap"><th>Test Name</th><th>Assertion Error</th></tr></thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- Set slider initial position depending on the localstorage state -->
+
+<script>
+(function () {
+  var sliderChecked = true;
+  if (localStorage.getItem('theme') === 'theme-light') {
+    setTheme('theme-light');
+    sliderChecked = false;
+  } else {
+    setTheme('theme-dark');
+    sliderChecked = true;
+  }
+  $(document).ready( function () {
+    document.getElementById('slider').checked = sliderChecked;
+  });
+})();
+</script>
+
+<!-- Data Table Configuration -->
+
+<script>
+$(document).ready( function () {
+    $('.datatable').DataTable({
+        "retrieve": true,
+        "paging": false,
+        "info": false,
+        "fixedColumns":   {
+            "heightMatch": 'none'
+        }
+    });
+});
+</script>
+
+<!-- Tooltip Configuration -->
+
+<script>
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover'
+    })
+})
+</script>
+
+<!-- Show/Hide The Folders -->
+
+<script>
+$('#openAll').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#folder-537db347-cd67-4f00-ae78-20d3e9edd498-iteration-0').removeClass('collapsed')
+            $('#folder-collapse-537db347-cd67-4f00-ae78-20d3e9edd498-iteration-0').addClass('show')
+        $('#openAll').html("Collapse Folders");
+        break;
+    case 2:
+            $('#folder-537db347-cd67-4f00-ae78-20d3e9edd498-iteration-0').addClass('collapsed')
+            $('#folder-collapse-537db347-cd67-4f00-ae78-20d3e9edd498-iteration-0').removeClass('show')
+        $('#openAll').html("Expand Folders");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Requests -->
+
+<script>
+$('#openAllRequests').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#requests-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('collapsed')
+            $('#collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('collapsed')
+            $('#requests-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('show')
+            $('#collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('show')
+            $('#requests-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('collapsed')
+            $('#collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('collapsed')
+            $('#requests-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('show')
+            $('#collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('show')
+        $('#openAllRequests').html("Collapse Requests");
+        break;
+    case 2:
+            $('#requests-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('collapsed')
+            $('#collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('collapsed')
+            $('#requests-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('show')
+            $('#collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('show')
+            $('#requests-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('collapsed')
+            $('#collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('collapsed')
+            $('#requests-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('show')
+            $('#collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('show')
+        $('#openAllRequests').html("Expand Requests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Skipped Tests -->
+
+<script>
+$('#openAllSkipped').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#skipped-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('collapsed')
+            $('#skipped-collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('collapsed')
+            $('#skipped-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('show')
+            $('#skipped-collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('show')
+            $('#skipped-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('collapsed')
+            $('#skipped-collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('collapsed')
+            $('#skipped-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('show')
+            $('#skipped-collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('show')
+        $('#openAllSkipped').html("Collapse All Skipped Tests");
+        break;
+    case 2:
+            $('#skipped-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('collapsed')
+            $('#skipped-collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').addClass('collapsed')
+            $('#skipped-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('show')
+            $('#skipped-collapse-39f0740a-98fe-48c8-a782-d6a3df44dda0').removeClass('show')
+            $('#skipped-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('collapsed')
+            $('#skipped-collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').addClass('collapsed')
+            $('#skipped-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('show')
+            $('#skipped-collapse-c82f2503-01a8-4038-9440-9bceb9c2ed7d').removeClass('show')
+        $('#openAllSkipped').html("Expand All Skipped Tests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Failures -->
+
+<script>
+$('#openAllFailed').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+let failedItemContent
+let failedItemHeading
+switch (clickCount){
+    case 1:
+        $('#openAllFailed').html("Collapse All Failed Tests");
+        break;
+    case 2:
+        $('#openAllFailed').html("Expand All Failed Tests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Pretty Print the Response Body-->
+
+<script>
+function isJSON(data)
+{
+    var ret = true;
+    try {
+            JSON.parse(data);
+    }catch(e) {
+            ret = false;
+    }
+    return ret;
+}
+
+function isXML(data)
+{
+    return (data.length > 0 && data[0] === '<');
+}
+
+// see https://gist.github.com/sente/1083506/d2834134cd070dbcc08bf42ee27dabb746a1c54d#gistcomment-2254622
+function formatXML(data) {
+    const PADDING = ' '.repeat(2); // set desired indent size here
+    const reg = /(>)(<)(\/*)/g;
+    let pad = 0;
+    xml = data.replace(reg, '$1\r\n$2$3');
+
+    return xml.split('\r\n').map((node, index) => {
+        let indent = 0;
+        if (node.match(/.+<\/\w[^>]*>$/)) {
+            indent = 0;
+        } else if (node.match(/^<\/\w/) && pad > 0) {
+            pad -= 1;
+        } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+            indent = 1;
+        } else {
+            indent = 0;
+        }
+
+        pad += indent;
+        return PADDING.repeat(pad - indent) + node;
+    }).join('\r\n');
+}
+
+$(".prettyPrint").each(function () {
+        var data = $(this).text();
+        // Verify whether data is JSON
+        if(isJSON(data))
+        {
+                obj = JSON.parse(data);
+                data = JSON.stringify(obj, null, 2);
+        }
+        else if(isXML(data)) {
+            data = formatXML(data);
+        }
+        $(this).text(data);
+});
+</script>
+
+
+<!-- Copy Response Body To Clipboard -->
+
+<script>
+    var clipboard = new ClipboardJS('.copyButton');
+
+    clipboard.on('success', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-success text-white")
+        e.trigger.textContent = '✔ Copied!';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-success text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+    clipboard.on('error', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-danger text-white")
+        e.trigger.textContent = '✗ Not Copied';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-danger text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+
+</script>
+
+<!-- Render the Description Markdown and link in the test failures -->
+
+<script>
+    const remarkable = new Remarkable();
+
+    const descriptions = document.querySelectorAll(".renderMarkdown");
+    descriptions.forEach(description => {
+        description.innerHTML = renderHtmlFromMarkdown(description.textContent);
+    });
+    function renderHtmlFromMarkdown(markdown) {
+        return remarkable.render(trim(markdown));
+    }
+    function trim(string) {
+        return string ? string.replace(/^ +| +$/gm, "") : string;
+    }
+</script>
+
+<!-- Show/Hide The Toggles When Scrolling The Page -->
+
+<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("topOfRequestsScreen").style.display = "block";
+    document.getElementById("topOfFailuresScreen").style.display = "block";
+    document.getElementById("topOfSkippedScreen").style.display = "block";
+    document.getElementById("openAll").style.display = "none";
+    document.getElementById("openAllRequests").style.display = "none";
+
+
+  } else {
+    document.getElementById("topOfRequestsScreen").style.display = "none";
+    document.getElementById("topOfFailuresScreen").style.display = "none";
+    document.getElementById("topOfSkippedScreen").style.display = "none";
+    document.getElementById("openAll").style.display = "block";
+    document.getElementById("openAllRequests").style.display = "block";
+
+  }
+}
+
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+
+<!-- Creates The Iteration Tabs -->
+
+<script type="text/javascript">
+    "use strict";
+
+window.onload = function () {
+
+  // set display for all blocks of response
+  var allItems = document.querySelectorAll('[class*=iteration-]');
+  allItems.forEach(function(elem){
+    elem.style.display = 'block';
+  });
+
+   
+  let totalIterations = 1;
+   
+
+  let menu = document.querySelector('#execution-menu .nav');
+
+  for(var i = 0; i < totalIterations; i++)
+  {
+    let li = document.createElement('li');
+    li.appendChild(document.createTextNode((i + 1)));
+    li.setAttribute('id', 'iteration-' + i);
+    li.classList.add("custom-tab");
+    li.classList.add("itPassed");
+
+    li.addEventListener('click', function() {
+      //set display to none for all except row
+      let allItems = document.querySelectorAll('[class*=iteration-]:not(.row)');
+      allItems.forEach(function(elem) {
+        elem.style.display = 'none';
+      })
+
+      let allMenus = document.querySelectorAll('[id*=iteration-]');
+      allMenus.forEach(function(elem){
+        elem.style.borderBottom = 'none';
+      })
+
+      this.style.borderBottom = 'solid 3px #032a33';
+
+      let items = document.querySelectorAll("." + this.id + ':not(.row)');
+      items.forEach(function(elem) {
+        elem.style.display = elem.style.display == 'block' ? 'none' : 'block';
+      })
+    });
+    menu.appendChild(li);
+  }
+
+  //shows first tab data
+  document.getElementById('iteration-0').click();
+  document.getElementById('iterationSelected').innerHTML = `Iteration ${document.getElementById('iteration-0').innerHTML} selected`
+
+}
+</script>
+
+<!-- Create the Selected Iteration Label -->
+
+<script>
+$(document).ready(function(){
+    $(function() {
+        $("#iterationList li").click(function() {
+            document.getElementById('iterationSelected').innerHTML = "Iteration " + this.innerHTML + " selected"
+        });
+    });
+});
+</script>
+
+<!-- Filter Action for the Iterations -->
+
+<script>
+$("#filterInput").on("input paste", function() {
+    var value = $(this).val();
+    $("#iterationList li").filter(function() {
+	    $("#showOnlyFailures").data("clickCount") ? $("#showOnlyFailures").click():null;
+        $(this).toggle($(this).text().indexOf(value) > -1)
+    });
+});
+</script>
+
+<!-- Showing the Failed Interations -->
+
+<script>
+$('#showOnlyFailures').on('click', function(e) {
+    let clickCount = $(this).data("clickCount") || 1
+	$("#filterInput").val()!="" && clickCount==1 ? $("#filterInput").val('').trigger('input'): null;
+    let selectedIteration = $('#iterationList li').filter(function () {
+        return $(this).css('border-bottom').indexOf("solid") > -1 && $(this).hasClass('itFailed');
+    });
+    selectedIteration.length || clickCount > 1 ? null : $("#iterationList li.itFailed")[0].click()
+    $("#iterationList li.itPassed").toggle()
+    $("div.bg-success [id*=requests]").parents('[class^="row iteration-"]').toggle();
+    clickCount = clickCount > 1 ? 1 : ++clickCount;
+    clickCount > 1 ? $("#showOnlyFailures").html("Show All Iterations") : $("#showOnlyFailures").html("Show Failed Iterations");
+    $(this).data("clickCount", clickCount)
+})
+</script>
+</body>
+</html>
