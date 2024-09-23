@@ -1,6 +1,6 @@
 # API_Projects
 
-First Download all the Collections and Import it via Postman, you will be able to see all the collecitons with the below points:
+**First Download all the Collections and Import it via Postman, you will be able to see all the collecitons with the below points.**
 
 - There are three projects with different requests run on Newman and Command Line interface.
 - The reports are also attached with results (Total Test Cases, Assertions, Failed,Passed).
@@ -21,7 +21,7 @@ First Download all the Collections and Import it via Postman, you will be able t
 4. Run the collection 
     1. newman run Collection URL -r htmlextra,cli` 
 
-**How too get Collection URL**
+**How to get Collection URL**
 1. Click on three dots on the colleciton and select share from the window pane.
 2. Select the Via Api tab from the popup.
 3. Click on Generate key and then copy the URL.
