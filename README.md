@@ -27,5 +27,9 @@
 3. Click on Generate key and then copy the URL.
 4. Use the copied URL instaed of Collection.json in the command  newman run Collection.json -r htmlextra,cli .
 
-
+**Running the API via Newman based on Environment variable like Prod, QA**
+1. Download the Project and Environment variable also.
+2. Copy the path for both the folder and use the below command to run on  newman.
+3. newman run "C:\Users\Asus\Postman\files\Restfull Booker.postman_collection.json" -e "C:\Users\Asus\Postman\files\Prod Env.postman_environment.json" -r htmlextra,cli
+4. New Folder will create with newman then report will be visible there.
 
