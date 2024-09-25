@@ -33,3 +33,12 @@
 3. newman run "C:\Users\Asus\Postman\files\Restfull Booker.postman_collection.json" -e "C:\Users\Asus\Postman\files\Prod Env.postman_environment.json" -r htmlextra,cli
 4. New Folder will create with newman then report will be visible there.
 
+** E2E Test Cases for Booking- See the description against the API collection , QA Env Json and Report for E2E**
+1. Create a Booking (id) -> Update the Booking Name ->  Get the Booking by Id and verify the name.
+2. Create a BOOKING -> Delete It -> Verify via GET it doesn't exist. 
+3. Get an Existing Booking from Get All Bookings Ids -> Update a Booking and Verify using GET by id.
+4. Trying to Update on a Delete Id -> 404.
+
+
+
+
