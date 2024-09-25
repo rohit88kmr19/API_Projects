@@ -6,7 +6,7 @@ console.log(pm.response.headers);
 console.log(pm.response.cookies);
 console.log(pm.response.originalRequest);
 console.log(pm.request.auth);
-
+------------------------------------------------------------------------------------
 **Test Cases for Booking**
 
 pm.test("Verify that status code for the request is 200", function()
@@ -26,6 +26,35 @@ pm.test("Verify the Booking Person Name", function(){
     pm.expect(firstname).to.equal("harushi");
 });
 
+pm.test("Verify that booking id is not NULL", function(){
+    var bookingid = pm.response.json()["bookingid"];
+    console.log(bookingid);
+    pm.environment.set("e_bookingid", bookingid);
+    pm.expect(bookingid).to.not.equal(null);
+});
+
+pm.test("Verify the last Name", function(){
+    var lastname = pm.response.json()["booking"]["lastname"];
+    console.log(lastname);
+    pm.expect(lastname).to.equal("Jaanvi");
+});
+
+pm.test("Verify the Booking dates with checkin and Checkout date", function(){
+    var checkin = pm.response.json()["booking"]["bookingdates"]["checkin"];
+    var checkout = pm.response.json()["booking"]["bookingdates"]["checkout"];
+    console.log(checkin);
+    pm.expect(checkin).to.equal("2018-01-01");
+    pm.expect(checkout).to.equal("2019-01-01");
+});
+
+pm.test("Verify additionalneeds", function(){
+    var additionalneeds = pm.response.json()["booking"]["additionalneeds"];
+
+    console.log(additionalneeds);
+    pm.expect(additionalneeds).to.equal("Desserts")
+    
+});
+-------------------------------------------------------------------------------------------------------
 **Validation of Booking status code, Header, Body and Response Time**
 pm.test("Response status code is 200", function () {
     pm.response.to.have.status(200);
