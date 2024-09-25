@@ -1,0 +1,32 @@
+console.log(pm.response.text());
+console.log(pm.response.json());
+console.log(pm.response.code);
+console.log(pm.response.status);
+console.log(pm.response.headers);
+console.log(pm.response.cookies);
+console.log(pm.response.originalRequest);
+console.log(pm.request.auth);
+
+**Test Cases for Booking**
+
+pm.test("Verify that status code for the request is 200", function()
+{
+    pm.expect(pm.response.code).to.be.equal(200);
+});
+
+pm.test("Verify that booking id is not NULL", function(){
+    var bookingid = pm.response.json()["bookingid"];
+    console.log(bookingid);
+    pm.expect(bookingid).to.not.equal(null);
+});
+
+pm.test("Verify the Booking Person Name", function(){
+    var firstname = pm.response.json()["booking"]["firstname"];
+    console.log(firstname);
+    pm.expect(firstname).to.equal("harushi");
+});
+
+
+
+
+
