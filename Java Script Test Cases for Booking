@@ -26,7 +26,50 @@ pm.test("Verify the Booking Person Name", function(){
     pm.expect(firstname).to.equal("harushi");
 });
 
+**Validation of Booking status code, Header, Body and Response Time**
+pm.test("Response status code is 200", function () {
+    pm.response.to.have.status(200);
+});
 
+
+pm.test("Content-Type is application/json", function () {
+    pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+});
+
+
+pm.test("Validate the booking object", function () {
+    const responseData = pm.response.json();
+    
+    pm.expect(responseData).to.be.an('object');
+    pm.expect(responseData.booking).to.exist.and.to.be.an('object');
+    pm.expect(responseData.booking.firstname).to.exist.and.to.be.a('string');
+    pm.expect(responseData.booking.lastname).to.exist.and.to.be.a('string');
+    pm.expect(responseData.booking.totalprice).to.exist.and.to.be.a('number');
+    pm.expect(responseData.booking.depositpaid).to.exist.and.to.be.a('boolean');
+    pm.expect(responseData.booking.bookingdates).to.exist.and.to.be.an('object');
+    pm.expect(responseData.booking.bookingdates.checkin).to.exist.and.to.be.a('string');
+    pm.expect(responseData.booking.bookingdates.checkout).to.exist.and.to.be.a('string');
+    pm.expect(responseData.booking.additionalneeds).to.exist.and.to.be.a('string');
+});
+
+
+pm.test("Firstname is a non-empty string", function () {
+    const responseData = pm.response.json();
+    
+    pm.expect(responseData).to.be.an('object');
+    pm.expect(responseData.booking.firstname).to.be.a('string').and.to.have.lengthOf.at.least(1, "Firstname should not be empty");
+});
+
+
+pm.test("Checkin and checkout dates are in a valid date format", function () {
+    const responseData = pm.response.json();
+    
+    pm.expect(responseData.booking.bookingdates.checkin).to.match(/^\d{4}-\d{2}-\d{2}$/);
+    pm.expect(responseData.booking.bookingdates.checkout).to.match(/^\d{4}-\d{2}-\d{2}$/);
+});
+pm.test("Response time is less than 200ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(1300);
+});
 
 
 
