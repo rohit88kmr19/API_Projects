@@ -45,4 +45,5 @@
 3. Now, run the below command byt copying your path name where you have stored your file.
 4. newman run "C:\Users\Asus\Postman\files\DataDriven.postman_collection.json" -d "C:\Users\Asus\Postman\files\MOCK_DATA.csv" -n 10 -r htmlextra,cli
 
-
+**Newman Command URL**
+https://www.npmjs.com/package/newman 
