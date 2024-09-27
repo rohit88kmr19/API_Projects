@@ -39,6 +39,10 @@
 3. Get an Existing Booking from Get All Bookings Ids -> Update a Booking and Verify using GET by id.
 4. Trying to Update on a Delete Id -> 404.
 
-
+** Data Driven Testing with POSTMAN tool**
+1. Create a request in postman and then export it , keep it in one folder.
+2. Generate the test data with username and password.
+3. Now, run the below command byt copying your path name where you have stored your file.
+4. newman run "C:\Users\Asus\Postman\files\DataDriven.postman_collection.json" -d "C:\Users\Asus\Postman\files\MOCK_DATA.csv" -n 10 -r htmlextra,cli
 
 
